@@ -1,0 +1,95 @@
+.app-container {
+    background: white;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slide-in-navbar {
+    from {
+        top: -50px;
+    }
+    to {
+        top: 80px;
+    }
+}
+
+@keyframes slide-in-menubar {
+    from {
+        top: -130px;
+    }
+    to {
+        top: 0;
+    }
+}
+
+@keyframes slide-in-chart-card {
+    from {
+        margin-left: 65vw;
+    }
+    to {
+        margin-left: 0px;
+    }
+}
+
+@keyframes stats-indicator-translate-to-red {
+    from {
+        width: 1%;
+    }
+    to {
+        width: 100%;
+        border-top: 3px solid red;
+    }
+}
+
+@keyframes stats-indicator-translate-to-green {
+    from {
+        width: 1%;
+    }
+    to {
+        width: 100%;
+        border-top: 3px solid #00CD00;
+    }
+}
+
+@keyframes stats-label-to-green {
+    from {
+        color: black;
+    }
+    to {
+        color: #00CD00;
+    }
+}
+
+@keyframes stats-label-to-red {
+    from {
+        color: black;
+    }
+    to {
+        color: red;
+    }
+}
+
+@keyframes marketplace-slide-in-from-left {
+    from {
+        left: -100vw;
+    }
+    to {
+        left: 0vw;
+    }
+}
+
+@keyframes listings-slide-in-from-left {
+    from {
+        left: -100vw;
+    }
+    to {
+        left: 0vw;
+    }
+}

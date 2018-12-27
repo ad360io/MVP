@@ -1,0 +1,27 @@
+.time-range-selector {
+    border: 0;
+    /* Over-writing SplitButton default paddings and font-size */
+    padding: 0px !important;
+    padding-top: 23px !important;
+    margin-top: 0px;
+    font-size: 28px !important;
+    /* Disable SplitButton(left) cursor actions  */
+    pointer-events: none;
+    cursor: default;
+}
+
+.time-range-selector:hover, .time-range-selector:focus {
+    background-color: white;
+}
+
+#time-range-selector {
+    border: 0;
+    background: white;
+    margin-left: 14px;
+    padding-top: 23px;
+}
+
+.stats-time-range-item {
+    font-size: 23px;
+    font-stretch: condensed;
+}

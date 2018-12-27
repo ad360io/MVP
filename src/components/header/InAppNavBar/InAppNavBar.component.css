@@ -1,0 +1,51 @@
+.navbar-container {
+    background: none;
+    height: 64px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    grid-area: nav-items;
+}
+
+.in-app-nav-item {
+    color: black;
+    text-decoration: none !important;
+    font-size: 15px;
+    font-weight: 300;
+}
+
+.nav-item-icon {
+    margin-right: 10px;
+    margin-left: 10px;
+    display: none !important;
+}
+
+.in-app-nav-item:hover, .in-app-nav-item:focus {
+    color: rgb(145, 53, 161);
+}
+
+.selected-nav-item {
+    font-weight: bold;
+    color: rgb(145, 53, 161);
+}
+
+.in-app-nav-item-flex {
+    text-align: center;
+    align-self: center;
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Safari */
+    -khtml-user-select: none;
+    /* Konqueror HTML */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently
+        supported by Chrome and Opera */
+}

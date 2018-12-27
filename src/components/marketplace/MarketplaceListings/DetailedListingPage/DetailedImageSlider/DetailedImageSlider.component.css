@@ -1,0 +1,8 @@
+.detailed-image {
+    width: 90%;
+    outline: 0;
+}
+
+img, img:focus, img:hover, img:active {
+    outline: none;
+}

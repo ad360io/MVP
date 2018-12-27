@@ -1,0 +1,22 @@
+.tiny-wallet-container {
+    grid-area: wallet;
+    height: 50px;
+    min-width: 142px;
+    margin-top: 7px;
+    border-left: 1px solid #ddd;
+    padding-left: 12px;
+    border-right: 1px solid #ddd;
+    padding-right: 12px;
+}
+
+.tiny-wallet-currency-label {
+    color: #558d55;
+    font-size: 13px;
+}
+
+.tiny-wallet-title {
+    margin-top: 5px;
+    margin-bottom: 4px;
+    font-weight: 300;
+    color: #999;
+}

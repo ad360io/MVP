@@ -1,0 +1,23 @@
+.stats-container-card > div > div {
+    padding-bottom: 5px !important;
+    padding-top: 0px !important;
+}
+
+.stats-title {
+    margin-left: 10%;
+    padding-top: 4%;
+    margin-top: 0px;
+    font-size: 28px;
+}
+
+
+/*
+FOR DESKTOP
+*/
+
+@media only screen and (min-width: 769px) {
+    .stats-container {
+        width: 20%;
+        min-width: 280px;
+    }
+}

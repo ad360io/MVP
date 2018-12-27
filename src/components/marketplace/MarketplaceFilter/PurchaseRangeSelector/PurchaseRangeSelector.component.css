@@ -1,0 +1,24 @@
+.range-slider {
+    width: 80% !important;
+    margin-left: 25px;
+}
+
+
+/*
+Overwriting Material UI Slider's default margin
+*/
+
+.range-slider > div {
+    margin-bottom: 15px !important;
+    margin-top: 15px !important;
+}
+
+.budget-value {
+    text-align: right;
+    margin-right: 33px;
+    font-size: 15px;
+    padding-top: 10px;
+    /*margin-bottom: 0px;*/
+    font-weight: 400;
+    color: #22a571;
+}

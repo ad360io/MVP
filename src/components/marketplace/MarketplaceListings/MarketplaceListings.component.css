@@ -1,0 +1,31 @@
+.marketplace-listings-container {
+    margin-left: 12px;
+    /* Drawer gets closed and docked on small screen */
+}
+
+.marketplace-title {
+    text-align: center;
+    padding-top: 2%;
+    margin-bottom: 2%;
+}
+
+.marketplace-listing-loading {
+    margin-left: 5%;
+    margin-top: 40vh;
+}
+
+
+/*
+FOR MEDIUM TO BIG SCREEN
+*/
+
+@media only screen and (min-width: 768px) {
+    .marketplace-listings-container {
+        margin-left: 300px;
+        /* Drawer is always open on medium to big screen*/
+    }
+    .marketplace-listing-loading {
+        margin-left: 18%;
+        margin-top: 40vh;
+    }
+}

@@ -1,0 +1,14 @@
+.profile-header {
+    /*position: absolute;*/
+    /*background: #cecece;*/
+    /*height: 300px;*/
+    /*width: 100vw;*/
+    /*top: 0;*/
+}
+
+.profile-container {
+    margin-top: 400px;
+    animation-name: fade-in;
+    animation-duration: 0.8s;
+    animation-fill-mode: forwards;
+}

@@ -1,0 +1,154 @@
+.detailed-listing-container {
+    margin-top: 64px;
+    height: 100%;
+    font-size: 30px;
+}
+
+.detailed-listing-renderer {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    position: absolute;
+    left: -100vw;
+    animation-name: listings-slide-in-from-left;
+    animation-duration: 0.8s;
+    animation-fill-mode: forwards;
+    text-align: 'left';
+    font-size: 14px;
+    /*font-family: 'sans serif';*/
+    font-stretch: 'normal';
+}
+
+.cancel-button {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.detailed-image-container {
+    width: 90vw;
+    float: left;
+    margin: 4%;
+}
+
+.detailed-image-container > div > div {
+    padding: 0px !important;
+    width: 80%;
+    margin-left: 10%;
+}
+
+.listing-concrete-details-container {
+    float: left;
+    width: 90%;
+    margin: 4%;
+    /*font-size: 20px;*/
+    font-stretch: normal;
+    line-height: 35px;
+}
+
+.poster-info-container {
+    width: 90%;
+    float: left;
+    margin: 4%;
+}
+
+.price-section {
+    /*float: left;*/
+    /*width: 55%;*/
+}
+
+.buy-section {
+    background: #ececec;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /*height: 80px;*/
+    padding: 5%;
+    /*padding-top: 2%;*/
+    /*padding-bottom: 5%;*/
+    /*padding-left: 5%;*/
+    /*padding-right: 5%;*/
+}
+
+.buy-btn-section {
+    /*width: 35%;*/
+    /*float: right;*/
+    /*padding-top: 12px;*/
+}
+
+.buy-button {
+    width: 100%;
+}
+
+.listing-details-text {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.details-text {
+    padding: 0 5% 0 5%;
+}
+
+.detailed-listing-action-section {
+    margin-top: 5%;
+    font-family: sans-serif;
+}
+
+.detailed-listing-action {
+    display: inline-block;
+    padding-left: 5%;
+    padding-top: 2%;
+    cursor: pointer;
+}
+
+.owner-profile-link {
+    cursor: pointer;
+    color: #0645AD;
+    font-weight: 300;
+    text-decoration: underline;
+}
+
+.listing-title {
+    font-weight: 400;
+}
+
+/*
+MEDIUM SCREEN
+*/
+
+@media only screen and (min-width: 768px) {
+    .listing-concrete-details-container {
+        width: 45vw;
+        float: left;
+        margin: 2%;
+    }
+    .poster-info-container {
+        width: 45vw;
+        margin: 2%;
+    }
+    .detailed-image-container {
+        width: 45vw;
+        margin: 2%;
+    }
+}
+
+
+/*
+MEDIUM SCREEN
+*/
+
+@media only screen and (min-width: 1000px) {
+    .listing-concrete-details-container {
+        width: 30%;
+        float: left;
+        margin: 2%;
+    }
+    .poster-info-container {
+        width: 250px;
+        margin: 2%;
+    }
+    .detailed-image-container {
+        width: 330px;
+        margin: 2%;
+    }
+}

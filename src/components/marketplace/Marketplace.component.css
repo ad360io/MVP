@@ -1,0 +1,16 @@
+.marketplace-container {
+    margin-top: 64px;
+    /* Match header component*/
+    position: relative;
+    animation-name: fade-in;
+    animation-duration: 0.8s;
+    animation-fill-mode: forwards;
+    z-index: 2;
+    height: auto;
+}
+
+.loading-container {
+    width: 100vw;
+    height: 100vh;
+    text-align: center;
+}

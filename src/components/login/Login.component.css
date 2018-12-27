@@ -1,0 +1,28 @@
+.btn-login {
+    letter-spacing: 1px;
+    padding: 12px 0 12px 4px;
+    color: white;
+    width: 316px;
+    font-size: 14px;
+    font-weight: 400
+}
+
+.cover-login {
+    height: 100vh;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-login {
+    padding: 32px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    background-clip: padding-box;
+    background: #6d4fbe;
+    background: -webkit-linear-gradient(23deg, #6d4fbe, #6d4fbe 45%, #be3394);
+    background: linear-gradient(23deg, #6d4fbe, #6d4fbe 45%, #be3394);
+    box-shadow: 0 4px 30px 4px rgba(0, 0, 0, 0.5);
+    transition: 250ms;
+}

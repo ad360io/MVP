@@ -1,0 +1,26 @@
+.create-listing-form-container {
+    width: 60%;
+    margin: auto;
+    padding-top: 3%;
+    animation-name: fade-in;
+    animation-duration: 0.8s;
+    animation-fill-mode: forwards;
+}
+
+.form-group {
+    margin-bottom: 25px;
+    font-size: 20px;
+}
+
+.create-listing-form-title {
+    margin-bottom: 0px;
+}
+
+.control-form-submit {
+    margin-bottom: 7%;
+    width: 100%;
+}
+
+.control-label {
+    margin-bottom: 0px;
+}

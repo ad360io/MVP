@@ -1,0 +1,17 @@
+.dashboard-tables-title {
+    font-size: 28px;
+    margin-left: 10%;
+    padding-top: 1%;
+    padding-bottom: 20px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.table-tabs ul > li.active > a, .table-tabs ul > li.active > a:hover, .table-tabs ul > li.active > a:focus {
+    background-color: #f6f6f6;
+    background: #f6f6f6;
+}
+
+.dashboard-tables-container {
+    margin-bottom: 5vh;
+}
