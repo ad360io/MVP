@@ -264,7 +264,7 @@ const GridCardRenderer = ({
 
         <CardHeader
             title={title}
-            subtitle={'Posted on: ' + dateAdded.slice(0, 10)}
+            subtitle={'Listing starts on: ' + dateAdded.slice(0, 10)}
             style={{paddingBottom: '0px'}}/>
         <img src={placeholderImage} className='grid-img' alt='listing-img'/>
         <CardContent className='grid-msg-container'>
