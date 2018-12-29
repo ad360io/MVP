@@ -6,7 +6,7 @@ export class AdFormatSelection extends React.Component {
 
     renderMediumList = (list, mediumFormat, onChange) => (
         <div>
-            <p className='ad-format-selector-title'>Select Medium</p>
+            <p className='ad-format-selector-title'>Medium</p>
             <ButtonGroup justified >
                 { list.slice(0, list.length / 2).map((item, index) => (
                     <Button
@@ -41,14 +41,14 @@ export class AdFormatSelection extends React.Component {
 
         let list = {
             'Branded Content':   ['Written Piece', 'Audio Piece', 'Video Piece', 'Email', 'Webinar', 'Other'],
-            'Influencer Post':   ['Tweet', 'Instagram', 'Twitch', 'Youtube', 'Facebook', 'Twitter', 'NicoNico', 'Other'],
+            'Influencer Post':   ['Tweet', 'Instagram', 'Twitch', 'Youtube', 'Facebook', 'Twitter', 'Youku', 'Other'],
             'Sponsorship':       ['Event', 'Individual', 'Website', 'Artistic Creation', 'Email Newsletter', 'Other'],
             'Patron Journalism': ['Written Piece', 'Audio Piece', 'Video Piece', 'Other'],
         };
 
         return (
              <div>
-                <div className='ad-format-selector-title'>Select Ad Format</div>
+                <div className='ad-format-selector-title'>Content Type</div>
                 {/*<SelectButtonGroup stringList={this.getMediumStringList()} />*/}
                 <ButtonGroup style={{ marginBottom: '25px' }} justified >
                     {

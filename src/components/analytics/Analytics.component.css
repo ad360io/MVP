@@ -2,7 +2,10 @@
     animation-name: fade-in;
     animation-duration: 0.8s;
     animation-fill-mode: forwards;
-    margin-top: 64px;
+    background-color: #f2f5f7;
+    padding-top: 5px;
+    padding-bottom: 24px;
+    min-height: calc(100vh - 73px - 65px);
 }
 
 .dashboard-grid {
@@ -11,7 +14,7 @@
     padding-right: 0px;
 }
 
-.dashboard-left {
+/*.dashboard-left {
     margin-top: 2%;
     width: 100vw;
     padding: 0px;
@@ -22,7 +25,7 @@
 .dashboard-right {
     margin-top: 2%;
     padding: 0px;
-}
+}*/
 
 .progress-renderer {
     margin-top: 130px;
@@ -43,7 +46,7 @@
 MEDIUM SCREEN
 */
 
-@media only screen and (min-width: 768px) {
+/*@media only screen and (min-width: 768px) {
     .dashboard-left {
         margin-top: 2%;
         width: 280px;
@@ -54,16 +57,16 @@ MEDIUM SCREEN
     .dashboard-right {
         margin-right: 5px;
     }
-}
+}*/
 
 
 /*
 BIG SCREEN
 */
 
-@media only screen and (min-width: 1300px) {
+/*@media only screen and (min-width: 1300px) {
     .dashboard-left {
         margin-left: 10vw;
         margin-right: 2%;
     }
-}
+}*/

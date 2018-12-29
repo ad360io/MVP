@@ -27,8 +27,8 @@ class AvailabilityPicker extends Component {
         const { from, to, onChange } = this.props;
         const modifiers = { start: from, end: to };
 
-        return <div>
-            <div className="date-range-container">
+        return (
+            <div className="date-range-container" style={{padding: '0 20%'}}>
                 <DayPicker
                     className='Selectable'
                     numberOfMonths={this.props.numberOfMonths}
@@ -36,11 +36,14 @@ class AvailabilityPicker extends Component {
                     modifiers={modifiers}
                     onDayClick={(day) => onChange(DateUtils.addDayToRange(day, this.props))}
                 />
-                <p className='selected-range-label'>
+
+                <p className='selected-range-label' style={{display: 'none'}}>
                     {!from && !to && 'Please select the first day'}
                     {from && !to && 'Please select the last day'}
+
                     {from && to && `Selected from ${from.toLocaleDateString()}
                         to ${to.toLocaleDateString()}`}{'  '}
+
                     {from && to && (
                         <button className='link' onClick={() => onChange({from: null, to: null})}>
                             Reset
@@ -48,7 +51,7 @@ class AvailabilityPicker extends Component {
                     )}
                 </p>
             </div>
-        </div>
+        );
     }
 }
 

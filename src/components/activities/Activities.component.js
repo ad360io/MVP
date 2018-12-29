@@ -136,16 +136,14 @@ class Activities extends Component {
 
 
     render() {
-        const { allApis, modeFilter, currencyFilter, history } = this.props;
+        const { allApis, modeFilter, currencyFilter, history, profile } = this.props;
 
         return (
-            <div style={{ marginTop: '100px' }}>
-                <ActivitiesTables
-                    reader={this.state.reader}
-                    userId={this.props.match.params.userId}
-                    {...{allApis, modeFilter, history, currencyFilter}}
-                />
-            </div>
+            <ActivitiesTables
+                reader={this.state.reader}
+                userId={this.props.match.params.userId}
+                {...{allApis, modeFilter, history, currencyFilter, profile}}
+            />
         )
     }
 }

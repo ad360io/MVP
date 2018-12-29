@@ -26,7 +26,6 @@ import nem from 'nem-sdk';
  * Profile Editor Component
  */
 
-//TODO: refactor
 class ProfileEditor extends Component {
 
     constructor(props) {
@@ -65,7 +64,6 @@ class ProfileEditor extends Component {
             avatar_url: this.props.avatar_url,
             show: true,
             nem_address: this.props.nem_address,
-            // nem_wlt_name: this.props.nem_wlt_name,
             nem_wlt_name: this.props.auth.userProfile.user_metadata.nem_wlt_name,
 
             eth_address: this.props.eth_address,
@@ -142,8 +140,6 @@ class ProfileEditor extends Component {
             self.NEM_wlt_base64_txt.push(reader.result);
             self.NEM_wlt_base64_txt = self.NEM_wlt_base64_txt.join('');
 
-            // console.log(self.NEM_wlt_base64_txt);
-
             // decode Base64 .wlt text to word array
             let word_array = nem.crypto.js.enc.Base64.parse(self.NEM_wlt_base64_txt);
 
@@ -153,6 +149,9 @@ class ProfileEditor extends Component {
             self.setState({nem_wlt_name: self.NEM_wlt_JSON.name});
 
             console.log(JSON.stringify(self.NEM_wlt_JSON));
+
+            let NEM_pk_error_message = document.getElementById('NEM_pk_error_message');
+            NEM_pk_error_message.style.display = 'none';
 
             let NEM_password_input = document.getElementById('NEM_password_input');
             NEM_password_input.style.display = 'initial';
@@ -164,7 +163,18 @@ class ProfileEditor extends Component {
 
     handleNemPasswordChange = (event) => {
         this.setState({NEM_password: event.target.value});
-    }
+    };
+
+    handleChangeWallet = async ({ nem_address ,nem_pk_enc }) => {
+        const { allApis: { patchJson }, profile, auth: { updateUserMeta }} = this.props;
+
+        await patchJson(`/account`, {
+            queryParams: { role: `eq.${profile.role}`},
+            payload: { nem_address }
+        });
+
+        updateUserMeta({ nem_address ,nem_pk_enc });
+    };
 
     handleNemPasswordSubmit = (event) => {
         event.preventDefault();
@@ -180,6 +190,15 @@ class ProfileEditor extends Component {
 
         // get private key
         let privateKey = common.privateKey;
+
+        let NEM_pk_error_message = document.getElementById('NEM_pk_error_message');
+
+        if (! privateKey) {
+            NEM_pk_error_message.style.display = 'initial';
+            return;
+        } else {
+            NEM_pk_error_message.style.display = 'none';
+        }
 
         // create key pair
         let keyPair = nem.crypto.keyPair.create(privateKey);
@@ -205,18 +224,12 @@ class ProfileEditor extends Component {
         console.log(address);
 
         if (isValid && isFromNetwork) {
-            this.setState({nem_address: address});
-            this.setState({nem_wlt_name: this.state.nem_wlt_name});
-
-            this.setState({nem_account_changed: true});
-
-            // console.log(this.state.nem_address);
-
             // AES encrypt private key with wallet password
             let nem_pk_enc = nem.crypto.js.AES.encrypt(common.privateKey, this.state.NEM_password).toString();
-            this.setState({nem_pk_enc: nem_pk_enc});
 
-            // console.log(this.state.nem_pk_enc);
+            let values = { nem_address: address, nem_pk_enc };
+
+            this.setState(values, () => this.handleChangeWallet(values));
 
             let NEM_wlt_input = document.getElementById('NEM_wlt_input');
             NEM_wlt_input.style.display = 'none';
@@ -230,12 +243,9 @@ class ProfileEditor extends Component {
         } else {
             alert('This wallet file does not contain a valid NEM account. Please try another wallet file.');
         }
-    }
+    };
 
     render() {
-        console.log(this.state);
-
-
         let NEM_wlt_formgroup;
 
         if (this.state.nem_address === 'undefined' || this.state.nem_address === '') {
@@ -247,7 +257,7 @@ class ProfileEditor extends Component {
                 <form id="NEM_password_input" style={{ 'display': 'none', 'fontSize': '14px', 'marginTop': '24px' }} onSubmit={this.handleNemPasswordSubmit}>
                     <label>
                         Password:&nbsp;&nbsp;
-                        <input type="text" style={{ 'fontWeight': 'normal', 'borderRadius': '3px' }} value={this.state.NEM_password} onChange={this.handleNemPasswordChange} />
+                        <input type="password" style={{ 'fontWeight': 'normal', 'borderRadius': '3px' }} value={this.state.NEM_password} onChange={this.handleNemPasswordChange} />
                     </label>
 
                     <input type="submit" value="Submit" />
@@ -257,6 +267,10 @@ class ProfileEditor extends Component {
                     NEM wallet name: {this.state.nem_wlt_name}
                     <br />
                     NEM address: {this.state.nem_address}
+                </p>
+
+                <p id="NEM_pk_error_message" style={{ 'display': 'none', 'fontSize': '13px', marginLeft: '12px' }}>
+                    Incorrect password
                 </p>
             </FormGroup>
         } else {
@@ -272,16 +286,22 @@ class ProfileEditor extends Component {
                     <br />
                 </p>
 
+                <p id="NEM_pk_error_message" style={{ 'display': 'none', 'fontSize': '13px', marginLeft: '12px' }}>
+                    Incorrect password
+                </p>
+
                 <p style={{ 'fontSize': '13px' }}>
                     To change your NEM account:
                 </p>
 
                 <input id="NEM_wlt_input" style={{ 'fontSize': '12px' }} type="file" accept=".wlt" onChange={this.read_NEM_wlt_file} />
 
-                <form id="NEM_password_input" style={{ 'display': 'none', 'fontSize': '14px', 'marginTop': '24px' }} onSubmit={this.handleNemPasswordSubmit}>
+                <br />
+
+                <form id="NEM_password_input" style={{ 'display': 'none', 'fontSize': '14px', margin: '6px 0 0 12px' }} onSubmit={this.handleNemPasswordSubmit}>
                     <label>
                         Password:&nbsp;&nbsp;
-                        <input type="text" style={{ 'fontWeight': 'normal', 'borderRadius': '3px' }} value={this.state.NEM_password} onChange={this.handleNemPasswordChange} />
+                        <input type="password" style={{ 'fontWeight': 'normal', 'borderRadius': '3px' }} value={this.state.NEM_password} onChange={this.handleNemPasswordChange} />
                     </label>
 
                     <input type="submit" value="Submit" />
@@ -314,6 +334,14 @@ class ProfileEditor extends Component {
                                  onChange={this.handleAvatarUrlChange}
                     />
                 </FormGroup>
+
+                {/* <FormGroup controlId='control-form-title'>
+                            <h4>ETH Address</h4>
+                            <FormControl type='text'
+                                defaultValue={this.state.eth_addressa}
+                                onChange={this.handleEthAddressChange}
+                            />
+                        </FormGroup> */}
 
                 {NEM_wlt_formgroup}
 
@@ -348,10 +376,10 @@ const mapStateToProps = (state) => {
         nem_address: state.ProfileReducer.profile.nem_address,
         nem_wlt_name: state.ProfileReducer.profile.nem_wlt_name,
         nem_pk_enc: state.ProfileReducer.profile.nem_pk_enc,
-
         eth_address: state.ProfileReducer.profile.eth_address,
+        profile: state.ProfileReducer.profile
     }
-}
+};
 
 const mapDispatchToProps = (dispatch) => {
     return {}

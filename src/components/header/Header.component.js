@@ -44,7 +44,7 @@ class Header extends Component {
     render() {
         return (
             <div className='header-container'>
-                <a href='/dashboard' className='logo-redirect'>
+                <a href='/analytics' className='logo-redirect'>
                     <img src='https://qchain.co/img/core/qchain_logo2018_icon.png' style={{ width: '45px', float: 'left', marginTop: '13px' }} alt='logo' />
                     <img src='https://qchain.co/img/core/qchainText2018UNBOLD.png' style={{ width: '90px', marginTop: '23px' }} alt='logo text' />
                 </a>

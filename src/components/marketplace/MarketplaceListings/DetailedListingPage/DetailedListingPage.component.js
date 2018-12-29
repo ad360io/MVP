@@ -21,6 +21,7 @@ import default_ph from '../../../../assets/images/pug_face.jpg';
 import {marketplaceApi} from "../../../../common/api/services/marketplace-api";
 import {DetailedRequestListing} from "./DetailedRequestListing";
 import {DetailedContentSpaceListing} from "./DetailedContentSpaceListing";
+import {isEmpty} from "lodash";
 
 
 class DetailedListingPage extends Component {
@@ -74,25 +75,29 @@ class DetailedListingPage extends Component {
 
     loadDetail = async () => {
         // call on start load to get data
+        const { allApis: {getJson}, history } = this.props;
 
-        const { allApis: {getJson} } = this.props;
+        let resp = await getJson(`/detailed_listing_view`, { queryParams: {id: `eq.${this.props.match.params.id}`}});
 
-        let resp = await marketplaceApi(getJson, { queryParams: {id: `eq.${this.props.match.params.id}`}});
-
-        this.setState({ detailedItem: resp.data[0]});
+        // let r1 = await marketplaceApi(getJson, { queryParams: {id: `eq.${this.props.match.params.id}`}});
+        if(isEmpty(resp.data[0])) {
+            history.push(`/marketplace`);
+        } else {
+            this.setState({ detailedItem: resp.data[0]});
+        }
     };
 
     //Split into other component
     handlePathToOwnerProfile = () => {
-        this.props.history.push('/q/' + this.state.listing.owner)
-    }
+        this.props.history.push('/q/' + this.state.listing.owner);
+    };
 
     render() {
         // console.log(this.props.match.params.id)
         // make a request to get detailed listing info using ID
         // parse info onto the page
 
-        const { allApis, modeFilter } = this.props;
+        const { allApis, modeFilter, profile } = this.props;
         const { detailedItem } = this.state;
 
         if( detailedItem == null ) return <div/>;
@@ -102,10 +107,11 @@ class DetailedListingPage extends Component {
                 <div className='detailed-listing-container'>
                     <DetailedRequestListing
                         {...{allApis, modeFilter}}
-                        onBack={() => this.props.history.push(`/marketplace`)}
+                        onBack={() => this.props.history.goBack()}
                         item={detailedItem}
                         decideImage={this.decideImage}
                         pathToOwnerProfile={this.handlePathToOwnerProfile}
+                        isOwner={profile.role === detailedItem.owner}
                     />
                 </div>
             )
@@ -114,9 +120,9 @@ class DetailedListingPage extends Component {
         return (
             <div className='detailed-listing-container'>
                 <DetailedContentSpaceListing
-                    {...{allApis, modeFilter}}
+                    {...{allApis, modeFilter, profile}}
                     item={detailedItem}
-                    onBack={() => this.props.history.push(`/marketplace`)}
+                    onBack={() => this.props.history.goBack()}
 
                     decideImage={this.decideImage}
                     bought={this.state.bought}
@@ -124,6 +130,7 @@ class DetailedListingPage extends Component {
                     issue={this.state.actionInfo}
                     emailVerified={this.props.email_verified}
                     pathToOwnerProfile={this.handlePathToOwnerProfile}
+                    isOwner={profile.role === detailedItem.owner}
                 />
             </div>
         );
@@ -170,7 +177,8 @@ class DetailedListingPage extends Component {
 const mapStateToProps = (state) => {
     return {
         modeFilter: state.MenuBarFilterReducer.modeFilter,
-        email_verified: state.ProfileReducer.profile.email_verified
+        email_verified: state.ProfileReducer.profile.email_verified,
+        profile: state.ProfileReducer.profile
     }
 };
 

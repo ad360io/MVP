@@ -77,8 +77,8 @@ class MarketplaceFilter extends Component {
     }
 
     decideTitle() {
-        if (this.props.modeFilter === 'Advertiser') return 'Content Spaces';
-        else return 'Content'
+        if (this.props.modeFilter === 'Advertiser') return 'Sort Content Listings';
+        else return 'Sort Content Requests'
     }
 
     decideHidden() {
@@ -116,23 +116,15 @@ class MarketplaceFilter extends Component {
                         paper: classes.drawerPaper,
                     }}
                 >
-                    {/*
 
-                <Paper
-                    style={{
-                        height: 64,
-                        width: 300,
-                        margin: 0,
-                        display: 'inline-block',
-                    }}
-                />
+                    <div className='filter-heading-container'>
+                        <p className='filter-heading'>Filter</p>
+                    </div>
 
-                */}
-
-
-                    <h4 className='filter-title'>{this.decideTitle()} Listings</h4>
+                    <h4 className='filter-title'>{this.decideTitle()}</h4>
                     <AdFormatFilter {...{filters, onChange}} />
-                    <FilterDivider />
+
+                    <br />
 
                     <div>
                         <h4 className='filter-title'>Keyword Search</h4>
@@ -142,48 +134,35 @@ class MarketplaceFilter extends Component {
                             }}
                             // onChange={this.props.onKeywordChange}
                         />
-                        <FilterDivider />
                     </div>
 
+                    <br /><br />
+
+                    { this.props.modeFilter === 'Advertiser' && (
+                        <div>
+                            <h4 className='filter-title'>Max Purchase</h4>
+                            <PurchaseRangeSelector
+                                {...{
+                                    filters,
+                                    onChange: (budget) => onChange({...filters, budget})
+                                }}
+                            />
+
+                            <br />
+                        </div>
+                    )}
 
                     <div>
-                        <h4 className='filter-title'>Max Purchase:</h4>
-                        <PurchaseRangeSelector
-                            {...{
-                                filters,
-                                onChange: (budget) => onChange({...filters, budget})
-                            }}
-                        />
-                        <FilterDivider />
-                    </div>
-
-                    <div>
-                        <h4 className='filter-title' style={{ textAlign: 'left', marginLeft: '25px' }}>Sort By:</h4>
+                        <h4 className='filter-title' style={{ textAlign: 'left', marginLeft: '25px' }}>Sort By</h4>
                         <SortingSelector
-                            dropup={this.props.width <= 768}
+                            dropdown={this.props.width <= 768}
                             {...{
                                 filters,
                                 onChange: (sortingType) => onChange({...filters, sortingType})
                             }}
 
                         />
-                        <FilterDivider />
                     </div>
-
-
-
-                    {/*
-                <Paper
-                    style={{-
-                        height: 69,
-                        width: 300,
-                        margin: 0,
-                        display: 'inline-block',
-                    }}
-                />
-
-                */}
-
 
                 </Drawer>
             </div>
@@ -221,9 +200,10 @@ const mapDispatchToFilterProps = (dispatch) => {
 
 const styles = theme => ({
     drawerPaper: {
-        width: 300,
-        marginTop: 64,
-        height: `calc(100%)`
+        width: '300px',
+        overflowX: 'hidden',
+        marginTop: '64px',
+        height: 'calc(100% - 73px - 64px)',
     }
 });
 

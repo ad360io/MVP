@@ -21,7 +21,7 @@ import SelectButtonGroup from './SelectButtonGroup.component';
 
 
 class AdFormatSelect extends Component {
-    
+
     showMedium = () => {
         let currentMediumStringList = this.getMediumStringList();
         if (currentMediumStringList !== null) {
@@ -83,7 +83,7 @@ class AdFormatSelect extends Component {
         const bcMediumStringList = ['Written Piece', 'Audio Piece', 'Video Piece', 'Email',
             'Webinar', 'Other',];
         const ipMediumStringList = ['Tweet', 'Instagram', 'Twitch', 'Youtube',
-            'Facebook', 'Twitter', 'NicoNico', 'Other'];
+            'Facebook', 'Twitter', 'Youku', 'Other'];
         const spMediumStringList = ['Event', 'Individual', 'Website', 'Artistic Creation',
             'Email Newsletter', 'Other'];
         const pjMediumStringList = ['Written Piece', 'Audio Piece', 'Video Piece', 'Other'];
@@ -105,7 +105,7 @@ class AdFormatSelect extends Component {
     render() {
         const adFormatStringList = ['Branded Content', 'Influencer Post', 'Sponsorship', 'Patron Journalism'];
         return <div>
-            <p className='ad-format-selector-title'>Select Ad Format</p>
+            <p className='ad-format-selector-title'>Select Content Type</p>
             <SelectButtonGroup stringList={this.getMediumStringList()} />
             <ButtonGroup style={{ marginBottom: '25px' }} justified >
                 {

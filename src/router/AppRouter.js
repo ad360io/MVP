@@ -1,7 +1,7 @@
 /*
 Core Libs
 */
-import {BrowserRouter, Switch, Route} from 'react-router-dom';
+import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
 import React from 'react';
 
 /*
@@ -14,13 +14,13 @@ import DefaultRoute from './DefaultRoute';
 Other Major Components
 */
 import Login from '../components/login/Login.component';
-import Dashboard from '../components/dashboard/Dashboard.component';
+// import Dashboard from '../components/dashboard/Dashboard.component';
+import Analytics from '../components/analytics/Analytics.component';
 import Marketplace from '../components/marketplace/Marketplace.component';
 import CreateListing from '../components/create-listing/CreateListing.component';
 import Activities from '../components/activities/Activities.component';
 import Profile from '../components/profile/Profile.component';
-import DetailedListingPage
-    from '../components/marketplace/MarketplaceListings/DetailedListingPage/DetailedListingPage.component';
+import DetailedListingPage from '../components/marketplace/MarketplaceListings/DetailedListingPage/DetailedListingPage.component';
 
 import AuthCallback from '../components/auth-callback/AuthCallback';
 import Auth from '../components/auth/Auth';
@@ -41,7 +41,7 @@ const handleAuthentication = (nextState, replace, history) => {
 
 /**
  * Main router for the app.
- * Integeration tested:
+ * Integration tested:
  *    - Each path display its own component.
  *    - Private Routes can only be accessed after authentication pass.
  *    - Default Routes display expected components base on authentication status.
@@ -50,9 +50,15 @@ const AppRouter = () => (
 
     <BrowserRouter basename={process.env.PUBLIC_URL}>
         <Switch>
-            <Route exact path='/' render={(props) => <Login auth={auth} {...props} />}/>
-            <PrivateRoute exact path='/dashboard' component={Dashboard} auth={auth}/>
-            <PrivateRoute exact path='/dashboard/:type' component={Dashboard} auth={auth}/>
+            <Route exact path="/" render={(props) =>
+                (auth.isAuthenticated()
+                    ? <Redirect to="/analytics"/>
+                    : <Login auth={auth} {...props} />
+                )}
+            />
+
+            <Route path='/dashboard' render={() => <Redirect to="/analytics"/>}/>
+            <PrivateRoute exact path='/analytics' component={Analytics} auth={auth}/>
             <PrivateRoute exact path='/marketplace' component={Marketplace} auth={auth}/>
             <PrivateRoute exact path='/create' component={CreateListing} auth={auth}/>
             <PrivateRoute path='/listing/:id' component={DetailedListingPage} auth={auth}/>

@@ -53,18 +53,6 @@ class ActiveRequest extends Component {
         }
     };
 
-
-    // componentWillMount() {
-    //     this.loadData();
-    // }
-    //
-    // componentWillUpdate(prevProps){
-    //     if(prevProps.reader !== this.props.reader
-    //     || prevProps.userId !== this.props.userId){
-    //         this.loadData();
-    //     }
-    // }
-
     decideURL = () => {
         if(this.props.reader) {
             return "https://marketplacedb.qchain.co/active_content_request" + this.state.order + `&owner=eq.${this.props.userId}`;
@@ -82,30 +70,6 @@ class ActiveRequest extends Component {
         let resp = await getJson(`/my_active_content_request`, {queryParams} );
 
         this.setState({activeListing: resp.data});
-
-        /*
-        const activeListingURL = this.decideURL();
-        const config = {
-            headers: { Authorization: "Bearer " + localStorage.getItem('id_token') }
-        };
-        axios.get(activeListingURL, config)
-            .then((response) => {
-                this.setState({
-                    ...this.state,
-                    finished: true,
-                    activeListing: response.data
-                })
-            })
-            .catch((err) => {
-                console.log(err);
-                this.setState({
-                    ...this.state,
-                    finished: true,
-                    err: err
-                })
-            })
-
-        */
     };
 
     deleteActiveRequest = async (listing) => {
@@ -113,8 +77,7 @@ class ActiveRequest extends Component {
 
         await patchJson(`/listing`, { queryParams: {id: `eq.${listing.id}`}, payload: { isactive: false } });
 
-        //TODO: delete listing
-        // await delJson(`/listing`, { queryParams: {id: `eq.${listing.id}`} });
+        window.location.reload();
     };
 
 
@@ -134,10 +97,10 @@ class ActiveRequest extends Component {
                             <tr>
                                 <th
                                     className='active-request-th'
-                                    onClick={() => this.toggleSort('name')}>Content Space Title</th>
+                                    onClick={() => this.toggleSort('name')}>Content Listing Title</th>
                                 <th
                                     className='active-request-th'
-                                    onClick={() => this.toggleSort('ad_format')}>Ad Format</th>
+                                    onClick={() => this.toggleSort('ad_format')}>Content Type</th>
                                 <th
                                     className='active-request-th'
                                     onClick={() => this.toggleSort('medium')}>Medium</th>

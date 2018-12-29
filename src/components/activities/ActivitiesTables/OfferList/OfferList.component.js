@@ -196,8 +196,6 @@ class OfferRenderer extends Component {
         let startDate = new Date(offer.start_date);
         let endDate = new Date(offer.end_date);
 
-
-
         const payload = {
             name: offer.topic,
             advertiser: localStorage.getItem('role'),
@@ -205,7 +203,9 @@ class OfferRenderer extends Component {
             start_date: offer.start_date,
             end_date: offer.end_date,
             currency: offer.currency,
-            payout_cap: offer.price * DateUtils.dateDiffInDays(startDate, endDate),
+            // TODO: calculate payout_cap depending on either one time payment or price/day
+            payout_cap: offer.price,
+            // payout_cap: offer.price * DateUtils.dateDiffInDays(startDate, endDate),
             contentlisting: offer.listing_id,
             contentspacelisting: null,
             status: "Pending"
@@ -246,13 +246,14 @@ class OfferRenderer extends Component {
         let endDate = new Date(this.props.offer.end_date);
         return (
             <Popover title={this.props.offer.sender_name + ' sent you an offer!'} id={'popover' + this.props.offer.id}>
-                <strong>Ad Format</strong> {this.props.offer.ad_format} <br />
+                <strong>Content Type</strong> {this.props.offer.ad_format} <br />
                 <Divider />
                 <strong>Start Date</strong> {this.props.offer.start_date} <br />
                 <strong>End Date</strong> {this.props.offer.end_date} <br />
                 <Divider />
-                <strong>Pricing</strong> {this.props.offer.price} {this.props.offer.currency} per day<br />
-                <strong>Total</strong> {this.props.offer.price * dateDiffInDays(startDate, endDate)} {this.props.offer.currency}
+                {/* <strong>Pricing</strong> {this.props.offer.price} {this.props.offer.currency} per day<br /> */}
+                {/* <strong>Total</strong> {this.props.offer.price * dateDiffInDays(startDate, endDate)} {this.props.offer.currency} */}
+                <strong>Price</strong> {this.props.offer.price} {this.props.offer.currency}
                 <Divider />
                 <strong>Message</strong><br />
                 {this.props.offer.message}

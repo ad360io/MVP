@@ -4,6 +4,7 @@ import {css} from 'emotion';
 import {Button, ControlLabel, Modal} from "react-bootstrap";
 import { FormGroup, FormControl } from 'react-bootstrap';
 import {getJson} from "../../../../common/api/method/get-json";
+import moment from "moment";
 
 import nem from 'nem-sdk';
 
@@ -17,12 +18,25 @@ export class PendingContractModal extends React.Component {
 
             txn_status: '',
             txn_error: false,
+            publisherInfo: null,
 
             open: false
         }
 
         this.endpoint = nem.model.objects.create('endpoint')(nem.model.nodes.defaultMainnet, nem.model.nodes.defaultPort);
+
+
     }
+
+    componentDidMount() {
+        this.getPublisher();
+    }
+
+    getPublisher = async () => {
+        const { allApis: {getJson}, selectedItem } = this.props;
+        let resp = await getJson(`/publisher?role=eq.${selectedItem.publisher}`);
+        this.setState({publisherInfo: resp.data[0]})
+    };
 
     handleNemPasswordChange = (event) => {
         this.setState({nem_password: event.target.value});
@@ -59,8 +73,6 @@ export class PendingContractModal extends React.Component {
             }
         );
 
-        // console.log(mosaicDefinitionMetaDataPair);
-        // console.log(divisibility[0]);
         return [mosaicDefinitionMetaDataPair, divisibility[0]];
     };
 
@@ -92,6 +104,23 @@ export class PendingContractModal extends React.Component {
         return parseFloat(totalFee.toString().slice(0,8));
     };
 
+    afterSendTransaction = async (tx_hash) => {
+        const { allApis: { patchJson }, selectedItem} = this.props;
+
+        await patchJson(`/contract`, { queryParams: { number: `eq.${selectedItem.number}`}, payload: { status: "Active"}});
+
+        const payload = {
+            tx_hash: tx_hash,
+            paid: true,
+            date_paid: moment().format("YYYY-MM-DDThh:mm:00")
+        };
+
+        await patchJson(`/invoice`, { queryParams: { contract: `eq.${selectedItem.number}`}, payload });
+
+        //turn off modal
+        this.toggle();
+    };
+
     sendTxn = () => {
         this.setState({txn_error: false});
         this.setState({txn_status: ''});
@@ -104,7 +133,7 @@ export class PendingContractModal extends React.Component {
         let txn_amount;
 
         try {
-            nem_pk = nem.crypto.js.AES.decrypt(nem_pk_enc, this.state.nem_password).toString(nem.crypto.js.enc.Utf8);
+            nem_pk = nem.crypto.js.AES.decrypt(this.props.profile.nem_pk_enc, this.state.nem_password).toString(nem.crypto.js.enc.Utf8);
         } catch(err) {
             console.log(err);
             nem_pk = '';
@@ -125,7 +154,7 @@ export class PendingContractModal extends React.Component {
         let txnRecipient;
 
         try {
-            txnRecipient = nem.model.address.clean(publisher_nem_address);
+            txnRecipient = nem.model.address.clean(this.state.publisherInfo.nem_address);
         } catch(err) {
             console.log(err);
             this.setState({txn_error: true});
@@ -145,7 +174,6 @@ export class PendingContractModal extends React.Component {
         }
 
         if (nem.utils.helpers.isTextAmountValid(selectedItem.payout_cap)) {
-            // this.setState({txn_amount: nem.utils.helpers.cleanTextAmount(selectedItem.payout_cap)});
             txn_amount = nem.utils.helpers.cleanTextAmount(selectedItem.payout_cap);
         } else {
             this.setState({txn_error: true});
@@ -166,6 +194,7 @@ export class PendingContractModal extends React.Component {
             return;
         }
 
+
         let common = nem.model.objects.create('common')(this.state.nem_password, nem_pk);
 
         let txnMessage = 'Qchain Marketplace payment for contract "' + selectedItem.name + '" (#' + selectedItem.number +') from ' + selectedItem.start_date.slice(0, 10) + ' to ' + selectedItem.end_date.slice(0, 10) + '.';
@@ -178,11 +207,10 @@ export class PendingContractModal extends React.Component {
 
         transferTransaction.mosaics.push(mosaicAttachment);
 
-        // console.log(transferTransaction);
-        // console.log(mosaicDefinitionMetaDataPair);
 
         var transactionEntity = nem.model.transactions.prepare('mosaicTransferTransaction')(common, transferTransaction, mosaicDefinitionMetaDataPair, nem.model.network.data.mainnet.id);
 
+        // calculate fee in case SDK has issues
         const feeFactor = 0.05;
         let messageMultiplier = Math.floor((transactionEntity.message.payload.length / 2) / 32) + 1;
         let totalMosaicQuantity = 375000000 * 10 ** divisibility;
@@ -194,45 +222,49 @@ export class PendingContractModal extends React.Component {
 
         transactionEntity.fee = (0 + messageMultiplier + mosaicMultiplier) * feeFactor * 1e6;
 
-        // console.log(transactionEntity);
-
         nem.model.transactions.send(common, transactionEntity, this.endpoint).then(
-            function(res){
+            (res) => {
+                console.log(res);
+
                 if (res.code === 1) {
-                    self.setState({txn_error: 'testing'});
-                                                                // this is not adding a line break
-                    self.setState({txn_status: 'Payment sent successfully!\nTxn Hash: ' + res.transactionHash.data});
+                    this.setState({txn_error: 'testing'});
+                    this.setState({txn_status: 'Payment sent successfully!\nTxn Hash: ' + res.transactionHash.data});
+                    this.afterSendTransaction(res.transactionHash.data);
+
                 } else if (res.code >= 2) {
-                    self.setState({txn_error: true});
-                    self.setState({txn_status: 'Error: ' + res.message});
+                    this.setState({txn_error: true});
+                    this.setState({txn_status: 'Error: ' + res.message});
                 } else if (res.code === 0) {
-                    self.setState({txn_error: true});
-                    self.setState({txn_status: 'Cannot send payment. Please refresh and try again.'});
+                    this.setState({txn_error: true});
+                    this.setState({txn_status: 'Cannot send payment. Please refresh and try again.'});
                 }
             }
         );
+
+        if (! this.state.txn_error) {
+            // console.log('SUCCESSFUL XQC TXN');
+        }
     };
 
     render () {
-        const { open } = this.state;
+        const { open, publisherInfo, txn_error } = this.state;
         const { selectedItem, afterClose } = this.props;
 
         return (
             <Modal
                 show={open}
-                onHide={() => {afterClose()}}
+                onHide={() => afterClose(!txn_error)}
             >
                 <Modal.Header closeButton>
                     <Modal.Title>Pending Contract Payment Confirmation</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <p style={{ 'fontSize': '15px' }}>
-                        {/* TODO: replace $RECIPIENT_ACCOUNT.nem_address with Publisher's NEM address from Postgres */}
-                        You’re about to send {selectedItem.payout_cap} {selectedItem.currency} to {selectedItem.publisher_name} ($RECIPIENT_ACCOUNT.nem_address) for {selectedItem.name}.
+                        You’re about to send {selectedItem.payout_cap} {selectedItem.currency} to {selectedItem.publisher_name} (
+                        {!publisherInfo ? `Loading...` : publisherInfo.nem_address}) for {selectedItem.name}.
                     </p>
 
                     <p id="txn_fee_text" style={{ 'fontSize': '13px' }}>
-                        {/* Network Fee: {this.state.txn_fee} */}
                         Network Fee: {this.showFee()}
                     </p>
 
@@ -242,8 +274,6 @@ export class PendingContractModal extends React.Component {
                     </FormGroup>
                 </Modal.Body>
                 <Modal.Footer>
-                    {/* <Button onClick={() => this.toggle()}>Close</Button> */}
-                    {/* <Button onClick={() => this.submit()}>Submit</Button> */}
                     <span style={{ 'fontSize': '14px', 'marginRight': '24px' }}>{this.state.txn_status}</span>
                     <Button id="submit_button" onClick={() => this.sendTxn()}>Submit</Button>
                 </Modal.Footer>

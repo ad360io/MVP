@@ -5,21 +5,22 @@ let appLayout = css`
     display: flex;
     flex-direction: column;
     height: 100vh;
-    
+
     .app-header {
         position: fixed;
         z-index: 6;
     }
-    
+
     .app-content {
         flex: 1;
-        margin-bottom: 73px;
+        margin-top: 65px;
+        // margin-bottom: 73px;
     }
-    
+
     .app-footer {
         // position: fixed;
         // bottom: 0;
-        // z-index: 50;
+        z-index: 50;
         // width: 100%;
     }
 `;

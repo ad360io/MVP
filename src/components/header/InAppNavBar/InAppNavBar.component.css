@@ -21,12 +21,12 @@
 }
 
 .in-app-nav-item:hover, .in-app-nav-item:focus {
-    color: rgb(145, 53, 161);
+    color: #C02F54;
 }
 
 .selected-nav-item {
-    font-weight: bold;
-    color: rgb(145, 53, 161);
+    font-weight: 500;
+    color: #C02F54;
 }
 
 .in-app-nav-item-flex {

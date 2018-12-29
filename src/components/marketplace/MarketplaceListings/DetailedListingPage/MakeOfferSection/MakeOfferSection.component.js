@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import Button from '@material-ui/core/Button';
-import {Alert} from 'react-bootstrap';
-import 'react-day-picker/lib/style.css'
+import {Alert, OverlayTrigger, Tooltip} from 'react-bootstrap';
+import 'react-day-picker/lib/style.css';
 import './MakeOfferSection.component.css';
 import {makeOfferModalService, MakeOfferSectionModal} from "./MakeOfferSectionModal";
+import {LinkWithTooltip} from "../../../../header/TinyWallet/TinyWallet.component";
 
 class MakeOfferSection extends Component {
     constructor(props) {
@@ -42,23 +43,34 @@ class MakeOfferSection extends Component {
 
     render() {
         const { isOffered } = this.state;
-        const { modeFilter } = this.props;
+        const { modeFilter, isOwner } = this.props;
 
         return (
             <div className='make-offer-button-container'>
                 { (isOffered)
                     ? <Alert bsStyle='success'>Congratulations! You've made the offer!</Alert>
-                    : <div className='buy-section'>
-                        <Button
-                            onClick={() => makeOfferModalService.openModal()}
-                            className='buy-button'
-                            variant='outlined'
-                            color='primary'
-                            disabled={modeFilter !== "Publisher"}
-                        >
-                            Make Offer
-                        </Button>
+                    :
+                    <div className='buy-section'>
+                        { isOwner ? (
+                            <OverlayTrigger placement="top" overlay={<Tooltip id="offer">This is your own listing.</Tooltip>}>
+                                <Button className='buy-button' variant='outlined'>Make an Offer</Button>
+                            </OverlayTrigger>
+                        ) : (
+                            <Button
+                                onClick={() => makeOfferModalService.openModal()}
+                                className='buy-button'
+                                variant='outlined'
+                                color='primary'
+                                style={{backgroundColor: '#fefefe'}}
+                                disabled={modeFilter !== "Publisher"}
+                            >
+                                Make Offer
+                            </Button>
+                        )}
+
                     </div>
+
+
                 }
                 <MakeOfferSectionModal {...{onMakeOffer: this.makeOffer}}/>
             </div>

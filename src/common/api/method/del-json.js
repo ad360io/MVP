@@ -1,7 +1,7 @@
 import axios from "axios";
 import {buildQuery1} from "./get-json";
 
-export const delJson = (url, {queryParams, authToken, headers}) => {
+export const delJson = (url, {queryParams = null, authToken, headers}) => {
     return axios(
         {
             url: `${url}${queryParams ? `?${buildQuery1(queryParams)}` : ``}`,

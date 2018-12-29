@@ -80,9 +80,9 @@ export default class Auth {
         // Push auth0 profile info to redux
         this.handleProfileOnAuthenticated(authResult.idToken);
 
-        // Redirect to /dashboard after authenticated.
-        propsHistory.replace('/dashboard');
-        propsHistory.push('/dashboard');
+        // Redirect to /analytics after authenticated.
+        propsHistory.replace('/analytics');
+        propsHistory.push('/analytics');
         this.scheduleRenewal();
     }
 
@@ -142,6 +142,7 @@ export default class Auth {
 
     getProfile(cb) {
         let accessToken = this.getAccessToken();
+
         this.auth0.client.userInfo(accessToken, (err, profile) => {
             if (profile) {
                 this.userProfile = profile;
@@ -153,24 +154,23 @@ export default class Auth {
     handleProfileOnAuthenticated = (authorizationToken) => {
         this.getProfile((err, profile) => {
             if (profile) {
-                // let headers = { Authorization: `Bearer ${authorizationToken}`};
-                // getJson(`https://marketplacedb.qchain.co/account?role=eq.${profile.app_metadata.role}`, {headers})
-                //     .then((resp) => {
-                //         let p = resp.data[0];
-                //         if(isEmpty(p.nem_address)) {
-                //             patchJson(`https://marketplacedb.qchain.co/account?role=eq.${profile.app_metadata.role}`,
-                //                 { payload: {nem_address: profile['https://auth.qchain.co/user_metadata'].nem_address}, headers})
-                //         }
-                //
-                //         this.dispatchProfile(profile, {
-                //             ...profile['https://auth.qchain.co/user_metadata'],
-                //             // nem_address: p.nem_address
-                //         });
-                //     });
+                let headers = { Authorization: `Bearer ${authorizationToken}`};
+                getJson(`https://marketplacedb.qchain.co/publisher?role=eq.${profile.app_metadata.role}`, {headers})
+                    .then((resp) => {
+                        if(isEmpty(resp.data)) {
+                            postJson(`https://marketplacedb.qchain.co/publisher`, {
+                                payload: {
+                                    name: profile.nickname,
+                                    role: profile.app_metadata.role,
+                                    nem_address: profile['https://auth.qchain.co/user_metadata'].nem_address
+                                }, headers}
+                            );
+                        }
+                    })
+                ;
 
                 this.dispatchProfile(profile, {
                     ...profile['https://auth.qchain.co/user_metadata'],
-                    // nem_address: p.nem_address
                 });
             }
             if (err) console.log(err)
@@ -238,7 +238,8 @@ export default class Auth {
                 avatar_url,
                 nem_address,
                 eth_address,
-                email_verified: profile.email_verified
+                email_verified: profile.email_verified,
+                nem_pk_enc: user_metadata.nem_pk_enc
             };
 
             this.store.dispatch({
@@ -252,19 +253,39 @@ export default class Auth {
         }
     }
 
+    updateUserMeta = (meta_data) => {
+        let myIdToken = localStorage.getItem('id_token');
+        let auth0Manager = new auth0.Management({
+            domain: 'qchain.auth0.com',
+            token: myIdToken,
+            _sendTelemetry: false,
+        });
+
+        let userId = localStorage.getItem('user_id');
+
+        auth0Manager.patchUserMetadata(userId, meta_data, ( err, profile) => {
+            if(err) {
+                console.log(err);
+            }
+            // console.log(profile);
+            this.dispatchProfile(profile, profile.user_metadata);
+        })
+    };
     /**
      * Provide a user_metadata object to be updated into auth0 scope ( THIS CALL SIGNS USER OUT AFTER UPDATE )
      * This method is used on ProfileEditor component.
      * @param {Object} newMetadata object with already declared fields will update values, undeclared fields will be appended.
      */
+    //TODO: refactor updateUserMetadata and combine with updateUserMeta
     updateUserMetadata = (newMetadata) => {
+        //TODO: refactor instance Management
         // Instantiate Auth0 Management API endpoint
         let myIdToken = localStorage.getItem('id_token');
         let auth0Manager = new auth0.Management({
             domain: 'qchain.auth0.com',
             token: myIdToken,
             _sendTelemetry: false,
-        })
+        });
 
         // Target user by using user_id, and each users should only have their own user_id and not others'.
         let myUserId = localStorage.getItem('user_id');
@@ -284,10 +305,10 @@ export default class Auth {
                             headers: { Authorization: "Bearer " + localStorage.getItem('id_token') }
                         };
                         const payload = {
-                            name: newMetadata.nickname,
+                            nickname: newMetadata.nickname,
+                            name: newMetadata.name,
                             email: newMetadata.email,
                             picture: newMetadata.picture,
-                            // nem_address: newMetadata.nem_address
                         };
 
                         axios.patch(nameURL, payload, config)

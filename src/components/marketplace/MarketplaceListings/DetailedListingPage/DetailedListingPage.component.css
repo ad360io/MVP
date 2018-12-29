@@ -1,17 +1,18 @@
 .detailed-listing-container {
-    margin-top: 64px;
+    /*margin-top: 64px;*/
     height: 100%;
     font-size: 30px;
+    background-color: #f2f5f7;
 }
 
 .detailed-listing-renderer {
     display: flex;
     justify-content: center;
     width: 100%;
-    position: absolute;
+    position: relative;
     left: -100vw;
     animation-name: listings-slide-in-from-left;
-    animation-duration: 0.8s;
+    animation-duration: 0.3s;
     animation-fill-mode: forwards;
     text-align: 'left';
     font-size: 14px;
@@ -58,7 +59,7 @@
 }
 
 .buy-section {
-    background: #ececec;
+    background-color: #54CC7C;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -78,6 +79,7 @@
 
 .buy-button {
     width: 100%;
+    background-color: #fefefe;
 }
 
 .listing-details-text {

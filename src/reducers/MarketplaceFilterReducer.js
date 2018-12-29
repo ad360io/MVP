@@ -1,7 +1,7 @@
 /** DEFAULT STATE */
 const defaultState = {
     isDrawerOpen: false,
-    budgetFilter: 7.5,
+    budgetFilter: 10,
     adFormatFilter: 'Show All',
     mediumFilter: '',
     viewModeFilter: 'Listing',

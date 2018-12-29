@@ -7,10 +7,13 @@ import {Cancel} from "@material-ui/icons";
 
 import DetailedImageSlider from "./DetailedImageSlider/DetailedImageSlider.component";
 import MakeOfferSection from "./MakeOfferSection/MakeOfferSection.component";
+import Button from "@material-ui/core/Button";
+import Tooltip from '@material-ui/core/Tooltip';
+import {isEmpty} from "lodash";
 
 export class DetailedRequestListing extends React.Component {
     render() {
-        const { item, decideImage, pathToOwnerProfile, allApis, onBack, modeFilter } = this.props;
+        const { item, decideImage, pathToOwnerProfile, allApis, onBack, modeFilter, isOwner } = this.props;
 
         return (
             <div className='detailed-listing-renderer'>
@@ -27,8 +30,8 @@ export class DetailedRequestListing extends React.Component {
                     <div className='detailed-listing-action-section'>
                         {/* <a className='detailed-listing-action'>Save this listing</a>
                         <Divider /> */}
-                        <a className='detailed-listing-action'>Add to watch list</a>
-                        <Divider />
+                        {/* <a className='detailed-listing-action'>Add to watch list</a>
+                        <Divider /> */}
                     </div>
                 </div>
 
@@ -40,15 +43,16 @@ export class DetailedRequestListing extends React.Component {
                     <Divider />
 
                     <CardContent className='listing-details-text'>
-                        <div className='details-text'>
-                            <p>Ad Format: {item.ad_format} {item.classtype}</p>
 
-                            <p>Marketing Medium: {item.medium}</p>
+                        <div className='details-text'>
+                            <p>Content Type: {item.ad_format} {item.classtype}</p>
+
+                            <p>Content Medium: {item.medium}</p>
 
                             <p>Ask Date: {item.date_added.slice(0, 10)}</p>
                         </div>
 
-                        <MakeOfferSection listing={item} {...{ allApis, modeFilter }} />
+                        <MakeOfferSection listing={item} {...{ allApis, modeFilter, isOwner }} />
 
                         <div className='details-text' style={{ marginTop: '24px' }}>{item.description}</div>
                     </CardContent>
@@ -60,14 +64,14 @@ export class DetailedRequestListing extends React.Component {
                             title={`Advertiser`}
                         />
                         <CardContent>
-                            <p>$PUBLISHER_NAME</p>
+                            <p>{!isEmpty(item.advertiser_nickname) ? item.advertiser_nickname : item.advertiser_name}</p>
                         </CardContent>
                     </Card>
                     <div className='detailed-listing-action-section'>
-                        <a className='detailed-listing-action'>Add advertiser to favorites</a>
-                        <Divider />
-                        <a className='detailed-listing-action'>Contact this advertiser</a>
-                        <Divider />
+                        {/* <a className='detailed-listing-action'>Add advertiser to favorites</a>
+                        <Divider /> */}
+                        {/* <a className='detailed-listing-action'>Contact this advertiser</a>
+                        <Divider /> */}
                     </div>
                 </div>
             </div>

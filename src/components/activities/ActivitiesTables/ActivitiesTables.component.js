@@ -31,20 +31,7 @@ class ActivitiesTables extends Component {
         this.state = {
             activeIdx: 0
         };
-
-        // this.getListingType = this.getListingType.bind(this);
-        // this.handleTabOnSelect = this.handleTabOnSelect.bind(this);
     }
-
-    // componentDidMount() {
-    //     if (this.props.reader === true) {
-    //         this.setState({ ...this.state, activeTabKey: 1 });
-    //     }
-    // }
-
-    // getListingType() {
-    //     return this.props.modeFilter === 'Advertiser' ? 'Ad' : 'Adspace';
-    // }
 
     componentDidUpdate(prevProps) {
         if(prevProps.modeFilter !== this.props.modeFilter) {
@@ -53,7 +40,7 @@ class ActivitiesTables extends Component {
     }
 
     render() {
-        const { allApis, modeFilter, history, currencyFilter } = this.props;
+        const { allApis, modeFilter, history, currencyFilter, profile } = this.props;
         const { activeIdx } = this.state;
 
         let list = [
@@ -78,13 +65,13 @@ class ActivitiesTables extends Component {
                 condition: true
             },
             {
-                title: "Past Contracts",
-                render: () => <InactiveContract/>,
+                title: "Pending Contracts",
+                render: () => <PendingContract {...{currencyFilter, modeFilter}}/>,
                 condition: true
             },
             {
-                title: "Pending Contracts",
-                render: () => <PendingContract {...{currencyFilter}}/>,
+                title: "Past Contracts",
+                render: () => <InactiveContract/>,
                 condition: true
             },
             {
@@ -94,7 +81,7 @@ class ActivitiesTables extends Component {
             },
             {
                 title: "Payments",
-                render: () => <Invoice isPublisher/>,
+                render: () => <Invoice isPublisher isPayment/>,
                 condition: modeFilter !== "Advertiser"
             },
         ];
@@ -117,7 +104,7 @@ class ActivitiesTables extends Component {
                             title={l.title}
                             key={key}
                         >
-                            { React.cloneElement(l.render(), { allApis, history }) }
+                            { React.cloneElement(l.render(), { allApis, history, profile }) }
                         </Tab>
                     ))
                 }

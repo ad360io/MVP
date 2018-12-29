@@ -31,14 +31,13 @@ export const createAsyncHandling = (authToken, onUnauthorized) => {
 
     return mapValues(
         { getJson, postJson, putJson, patchJson, delJson },
-        (method) => (url, {
-            queryParams = null,
-            payload = null,
-            headers = {},
-            fromBaseUrl = true
-        }) => method( fromBaseUrl ? `${baseUrl}${url}` : url, { queryParams, payload, authToken, headers })
+        ( method ) => (url, args) => {
+            const { queryParams, payload, headers} = args || { queryParams : null , payload : null, headers : null }
+
+            return method(`${baseUrl}${url}`, {queryParams, payload, authToken, headers})
                 .then(jsonResp)
-                .catch((e) => Promise.resolve({error: true, message: e})),
+                .catch((e) => Promise.resolve({error: true, message: e}));
+        },
     );
 };
 

@@ -15,19 +15,14 @@ export class PendingContract extends React.Component {
 
     getPendingContract = async () => {
         const { allApis: { getJson }} = this.props;
-
-        // let r1 = await getJson(`/my_pending_contract_view`, { queryParams: {status: `eq.Pending`}});
-        // console.log(r1);
-
-        let resp = await getJson(`/contract`, { queryParams: { status: `eq.Pending`}});
-        // let resp = await getJson(`/my_pending_contract_view`);
+        let resp = await getJson(`/my_pending_contract_view`);
 
         this.setState({pendingContract: resp.data});
     };
 
     render () {
         const { pendingContract, selectedItem } = this.state;
-        const { allApis, currencyFilter } = this.props;
+        const { allApis, currencyFilter, profile, modeFilter } = this.props;
 
         if(pendingContract == null) return <LoadingPanel/>;
 
@@ -35,7 +30,7 @@ export class PendingContract extends React.Component {
             <div className='active-listing-container'>
                 <div className='table-responsive' style={{ height: '100%', margin: '2% 0 2% 0', minHeight: '320px' }}>
                     { (pendingContract.length === 0)
-                        ? (<p style={{ textAlign: 'center' }}>There is currently no inactive contract...</p>)
+                        ? (<p style={{ textAlign: 'center' }}>You currently have no pending contracts.</p>)
                         : (<table className='table table-bordered mb-0'>
                                 <thead className='thead-default'>
                                 <tr>
@@ -55,7 +50,7 @@ export class PendingContract extends React.Component {
                                         >End Date</th>
                                     <th
                                         className='inactive-contract-th'
-                                        >Payout Cap</th>
+                                        >Total Payment</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -65,9 +60,12 @@ export class PendingContract extends React.Component {
                                     <tr
                                         key={'contracttr' + i}
                                         onClick={() => {
-                                            this.setState({selectedItem: contract},
-                                                () => this.contractModal.toggle()
+                                            modeFilter === "Advertiser" && (
+                                                this.setState({selectedItem: contract},
+                                                    () => this.contractModal.toggle()
+                                                )
                                             )
+
                                         }}
                                     >
                                         <td style={{ color: '#3366BB', cursor: 'pointer' }}>{contract.name}</td>
@@ -89,8 +87,14 @@ export class PendingContract extends React.Component {
                         ref={(elem) => this.contractModal = elem}
                         {...{
                             selectedItem,
-                            afterClose: () => this.setState({selectedItem: null}),
-                            allApis
+                            afterClose: (success) => {
+                                if(success) {
+                                    this.getPendingContract()
+                                }
+                                this.setState({selectedItem: null})
+                            },
+                            allApis,
+                            profile
                         }}
                     />
                 )}

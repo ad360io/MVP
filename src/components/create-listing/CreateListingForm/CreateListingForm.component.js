@@ -82,13 +82,14 @@ class CreateListingForm extends Component {
             default:
                 return 'Unknown step';
         }
-    }
+    };
+
     decideFormTitle = () => {
         return (this.props.modeFilter === 'Advertiser'
-            ? 'Request Content Space Availability'
-            : 'Create Content Space Listings'
+            ? 'Request Content'
+            : 'Create Content Listing'
         );
-    }
+    };
 
     handleSubmitForm = () => {
         // hide back button, reset fields provide an option to create another listing
@@ -97,7 +98,9 @@ class CreateListingForm extends Component {
         } else {
             this.props.onPubSubmit();
         }
-    }
+
+        window.scrollTo(0, 0);
+    };
 
     handleStepperNext = () => {
         if (this.props.modeFilter === 'Advertiser') {
@@ -105,6 +108,8 @@ class CreateListingForm extends Component {
         } else {
             this.props.pubStepperNext();
         }
+
+        window.scrollTo(0, 0);
     };
 
     handleStepperBack = () => {
@@ -113,6 +118,8 @@ class CreateListingForm extends Component {
         } else {
             this.props.pubStepperBack();
         }
+
+        window.scrollTo(0, 0);
     };
 
     onFormResetClick = () => {
@@ -161,11 +168,8 @@ class CreateListingForm extends Component {
         const { classes } = this.props;
         const steps = getSteps();
 
-
         console.log(this.props.advertiserSubmitted);
-
         console.log(this.props.publisherSubmitted);
-
 
 
         return <div className={classes.root + ' create-listing-form-container'}>

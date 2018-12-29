@@ -36,7 +36,7 @@ class RequiredFormField extends React.Component {
         };
 
         getRequiredData = this.getData;
-    };
+    }
 
     valid = () => {
         for (let key in this.state) {
@@ -60,7 +60,7 @@ class RequiredFormField extends React.Component {
                 { modeFilter !== 'Advertiser' && (
                     <FormGroup>
                         <p className='control-label'>
-                            Select Promotion Duration
+                            Promotion Duration
                         </p>
                         <AvailabilityPicker
                             {...{
@@ -90,20 +90,22 @@ class RequiredFormField extends React.Component {
                 { modeFilter !== 'Advertiser' && (
                     <FormGroup controlId='control-form-price' >
                         <p className='control-label'>
-                            Price per time unit (day/week/month/year)
+                            Price
                         </p>
                         <FormControl
                             value={price}
-                            type='number' min='1' step='1' onChange={(e) => this.setState({price: e.target.value})}
-                            style={{width: '50%', float: 'left'}}
+                            type='number' min='1' max='100000' step='1' onChange={(e) => this.setState({price: e.target.value})}
+                            style={{width: '49%', float: 'left'}}
                         />
-                        <FormControl componentClass='select' style={{width: '50%'}} required>
+                        <FormControl componentClass='select' style={{width: '49%', float: 'right', display: 'none'}} required>
+                            <option value='one-time'>one time</option>
                             <option value='day'>per day</option>
-                            <option value='week'>per week</option>
-                            <option value='month'>per month</option>
-                            <option value='year'>per year</option>
                         </FormControl>
                     </FormGroup>
+                )}
+
+                { modeFilter !== 'Advertiser' && (
+                    <div style={{height: '30px'}}></div>
                 )}
 
                 <FormGroup controlId='control-form-pitch'>
@@ -112,11 +114,12 @@ class RequiredFormField extends React.Component {
                             modeFilter === 'Advertiser'
                                 ? "Content Description"
                                 : "Listing Description"
-                        }
+                        } (1024 characters max)
+
                     </p>
                     <FormControl componentClass='textarea'
                                  value={description}
-                                 maxLength={280}
+                                 maxLength={1024}
                                  rows={8}
                                  style={{resize: 'vertical'}}
                                  onChange={(e) => this.setState({description: e.target.value})}

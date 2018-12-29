@@ -1,7 +1,7 @@
 import axios from "axios";
 import {buildQuery1} from "./get-json";
 
-export const withPayloadJson = (method) => (url, {queryParams, payload, authToken, headers}) => {
+export const withPayloadJson = (method) => (url, {queryParams = null, payload, authToken, headers}) => {
     return axios(
         {
             url: `${url}${queryParams ? `?${buildQuery1(queryParams)}` : ``}`,

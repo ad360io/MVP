@@ -27,6 +27,9 @@ class PurchaseRangeSelector extends React.Component {
         }
     }
 
+    calculate_slider_step = () => {
+        // TODO
+    };
 
     render() {
         let { filters, onChange, currencyFilter } = this.props;
@@ -41,7 +44,7 @@ class PurchaseRangeSelector extends React.Component {
                         min={0.1}
                         max={10}
                         step={0.1}/>
-                <div className='budget-value'> {value} k {currencyFilter}</div>
+                <div className='budget-value'> {(value * 1000).toLocaleString()} {currencyFilter}</div>
             </div>
         );
     }

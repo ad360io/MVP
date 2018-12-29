@@ -7,7 +7,6 @@
 }
 
 .profile-container {
-    margin-top: 65px;
     animation-name: fade-in;
     animation-duration: 0.8s;
     animation-fill-mode: forwards;

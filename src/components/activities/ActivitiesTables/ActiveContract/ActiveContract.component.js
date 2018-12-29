@@ -126,7 +126,7 @@ class ActiveContract extends Component {
                                     className='active-contract-th'
                                     onClick={() => this.toggleSort('end_date')}>End Date</th>
                                 <th className='active-contract-th'
-                                    onClick={() => this.toggleSort('payout_cap')}>Payout Cap</th>
+                                    onClick={() => this.toggleSort('payout_cap')}>Total Payment</th>
                             </tr>
                         </thead>
                         <tbody>

@@ -61,11 +61,9 @@ class Invoice extends Component {
 
     render() {
         let { invoices } = this.state;
-        const { isPublisher } = this.props;
+        const { isPublisher, isPayment } = this.props;
 
         if( invoices == null ) return <LoadingPanel/>;
-
-        console.log(invoices);
 
         return (
             <div className='active-listing-container'>
@@ -92,14 +90,16 @@ class Invoice extends Component {
                                         onClick={() => this.toggleSort('amount')}>Amount</th>
                                     <th
                                         className='invoice-th'
-                                        onClick={() => {}}>Paid</th>
+                                        onClick={() => {}}>Date Paid</th>
+                                    { !isPayment && (
+                                        <th
+                                            className='invoice-th'
+                                            onClick={() => {}}>Due Date</th>
+                                    )}
                                     <th
                                         className='invoice-th'
-                                        onClick={() => {}}>Due Date</th>
-                                  <th
-                                        className='invoice-th'
                                         onClick={() => {}}>Transaction Hash
-                                  </th>
+                                    </th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -116,8 +116,8 @@ class Invoice extends Component {
                                             </td>
                                             {isPublisher ? (<td>{invoice.publisher_name}</td>) : (<td>{invoice.advertiser_name}</td>)}
                                             <td>{invoice.amount} {invoice.currency}</td>
-                                            <td>{invoice.paid ? `Paid` : `Unpaid`}</td>
-                                            <td>{invoice.due_date.split('T')[0]}</td>
+                                            <td>{invoice.date_paid ? invoice.date_paid.split('T')[0] : ''}</td>
+                                            {!isPayment &&  <td>{invoice.due_date.split('T')[0]}</td>}
                                             <td>{invoice.tx_hash}</td>
                                         </tr>
                                     ))

@@ -188,8 +188,9 @@ class ListingCard extends Component {
 
     render() {
         return <NavLink to={'/listing/' + this.props.listing.id}>
-            {this.props.viewModeFilter === 'Grid'
-                ? <GridCardRenderer
+
+            {this.props.viewModeFilter === 'Grid' &&
+                <GridCardRenderer
                     width={this.decideCardWidth()}
                     marginLeft={this.decideMarginLeft()}
                     contactInfo={this.decideContactInfo()}
@@ -200,7 +201,10 @@ class ListingCard extends Component {
                     id={this.props.listing.id}
                     dateAdded={this.props.listing.date_added}
                 />
-                : <ListingCardRenderer
+            }
+
+            {(this.props.viewModeFilter !== 'Grid' && this.props.modeFilter === 'Advertiser') &&
+                <ListingCardRenderer_Adv
                     marginLeft={this.decideMarginLeft()}
                     contactInfo={this.decideContactInfo()}
                     priceTag={this.decidePriceTag()}
@@ -212,31 +216,19 @@ class ListingCard extends Component {
                 />
             }
 
-            {/* <Modal show={this.state.show} onHide={this.handleHideModal}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Invite to {this.props.listing.contentTopic}</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <h3>Why you should get in touch with us?</h3>
-                    <p>{this.props.listing.msg}</p>
-                    <br/>
-                    <h3>Our pricing</h3>
-                    <p>{this.props.listing.pricing+' '+this.props.listing.currency.toUpperCase()}</p>
-                    <br />
-                    <h3>Additional Info</h3>
-                    <FormGroup controlId='control-form-additional-info'>
-                        <FormControl componentClass='textarea'
-                            placeholder='Is there anything that you want them to know?'
-                            maxLength={280}
-                            rows={8}
-                            style={{resize: 'vertical'}}/>
-                    </FormGroup>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button disabled>Send Invite</Button>
-                    <Button onClick={this.handleHideModal}>Close</Button>
-                </Modal.Footer>
-            </Modal> */}
+            {(this.props.viewModeFilter !== 'Grid' && this.props.modeFilter !== 'Advertiser') &&
+                <ListingCardRenderer_Pub
+                    marginLeft={this.decideMarginLeft()}
+                    contactInfo={this.decideContactInfo()}
+                    priceTag={this.decidePriceTag()}
+                    title={this.decideTitleDisplayText()}
+                    placeholderImage={this.decidePlaceholderImage()}
+                    description={this.decideDescription()}
+                    dateAdded={this.props.listing.date_added}
+                    id={this.props.listing.id}
+                />
+            }
+
         </NavLink>
     }
 }
@@ -264,7 +256,7 @@ const GridCardRenderer = ({
 
         <CardHeader
             title={title}
-            subtitle={'Listing starts on: ' + dateAdded.slice(0, 10)}
+            subtitle={'Listing active on: ' + dateAdded.slice(0, 10)}
             style={{paddingBottom: '0px'}}/>
         <img src={placeholderImage} className='grid-img' alt='listing-img'/>
         <CardContent className='grid-msg-container'>
@@ -279,7 +271,8 @@ const GridCardRenderer = ({
     </Card>
 );
 
-const ListingCardRenderer = ({
+
+const ListingCardRenderer_Adv = ({
                                  marginLeft,
                                  contactInfo,
                                  priceTag,
@@ -290,26 +283,42 @@ const ListingCardRenderer = ({
                                  id,
                              }) => (
     <Card className='listing-card-container noselect'
-          style={{
-              width: '90%',
-              // marginLeft,
-              marginRight: '2%'
-          }}
+          style={{}}
     >
         <div className='title-tag'>{title}</div>
         <div className='price-tag'>{priceTag}</div>
 
         <div className='listing-date'>
-            Posted on {dateAdded.slice(0, 10)}
+            Listed on {dateAdded.slice(0, 10)}
         </div>
 
+        <img src={placeholderImage} className='listing-img' alt='listing-img'/>
+        <CardContent className='listing-msg-container'>
+            <span className="listing-msg">{description}</span>
+        </CardContent>
+    </Card>
+)
 
-        {/*<div*/}
-            {/*title={title}*/}
-            {/*subtitle={'Posted on: ' + dateAdded.slice(0, 10)}*/}
-            {/*className='listing-card-title'*/}
-            {/*style={{paddingBottom: '0px'}}*/}
-        {/*/>*/}
+const ListingCardRenderer_Pub = ({
+                                 marginLeft,
+                                 contactInfo,
+                                 priceTag,
+                                 title,
+                                 placeholderImage,
+                                 description,
+                                 dateAdded,
+                                 id,
+                             }) => (
+    <Card className='listing-card-container noselect'
+          style={{}}
+    >
+        <div className='title-tag'>{title}</div>
+        <div className='price-tag'>{priceTag}</div>
+
+        <div className='listing-date'>
+            Start Date: {dateAdded.slice(0, 10)}
+        </div>
+
         <img src={placeholderImage} className='listing-img' alt='listing-img'/>
         <CardContent className='listing-msg-container'>
             <span className="listing-msg">{description}</span>

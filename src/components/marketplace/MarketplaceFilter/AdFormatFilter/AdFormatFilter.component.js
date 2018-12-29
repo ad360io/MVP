@@ -22,7 +22,7 @@ import { Button, SplitButton, MenuItem } from 'react-bootstrap';
 const bcMediumStringList = ['Written Piece', 'Audio Piece', 'Video Piece', 'Email',
     'Webinar', 'Other',];
 const ipMediumStringList = ['Tweet', 'Instagram', 'Twitch', 'Youtube',
-    'Facebook', 'Twitter', 'NicoNico', 'Other'];
+    'Facebook', 'Twitter', 'Youku', 'Other'];
 const spMediumStringList = ['Event', 'Individual', 'Website', 'Artistic Creation',
     'Email Newsletter', 'Other'];
 const pjMediumStringList = ['Written Piece', 'Audio Piece', 'Video Piece', 'Other'];

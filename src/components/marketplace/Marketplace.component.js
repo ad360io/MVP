@@ -33,7 +33,7 @@ class Marketplace extends Component {
             total: 0,
             currentPageNum: 1,
             filters: {
-                budget: 7.5,
+                budget: 100.001,
                 adFormatFilter: 'Show All',
                 mediumFilter: '',
                 sortingType: 'Date Added',
@@ -71,12 +71,16 @@ class Marketplace extends Component {
             ),
             currency: `eq.${currencyFilter}`,
             price: `lte.${budget * 1000}`,
+            isactive: `is.true`
         }
     };
 
     getData = async() => {
         const { allApis : {getJson} } = this.props;
         const { currentPageNum } = this.state;
+
+        let r1 = await getJson(`/account`);
+        console.log(r1);
 
         let queryParams = this.getParamQuery();
 
@@ -85,7 +89,7 @@ class Marketplace extends Component {
             Range: `${pageSize * (currentPageNum - 1)}-${(pageSize * currentPageNum) - 1}`
         };
 
-        let resp = await marketplaceApi(getJson, {queryParams, headers});
+        let resp = await getJson(`/detailed_listing_view`, {queryParams, headers});
 
         let total = +resp.headers['content-range'].split('/')[1];
 
@@ -109,21 +113,19 @@ class Marketplace extends Component {
         } = this.state;
 
         return (
-            <div style={{ 'position': 'relative' }}>
-                <div className='marketplace-container'>
-                    <MarketplaceFilter
-                        {...{
-                            filters,
-                            onChange: (filters) => this.setState({ filters, listing: null }, () => this.getData())
-                        }}
-                    />
-                    <MarketplaceListings
-                        {...{
-                            listing, total, currentPageNum,
-                            onChangePage: (page) => this.setState({ currentPageNum: page }, () => this.getData())
-                        }}
-                    />
-                </div>
+            <div className='marketplace-container'>
+                <MarketplaceFilter
+                    {...{
+                        filters,
+                        onChange: (filters) => this.setState({ filters, listing: null }, () => this.getData())
+                    }}
+                />
+                <MarketplaceListings
+                    {...{
+                        listing, total, currentPageNum,
+                        onChangePage: (page) => this.setState({ currentPageNum: page }, () => this.getData())
+                    }}
+                />
             </div>
         )
     }

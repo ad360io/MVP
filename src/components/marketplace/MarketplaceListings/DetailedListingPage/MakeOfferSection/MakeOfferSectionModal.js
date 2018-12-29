@@ -10,7 +10,7 @@ export class MakeOfferSectionModal extends React.Component {
         super(props);
         this.state = {
             isShow: false,
-            offerAmount: -1,
+            offerAmount: 1,
             offerMessage: '',
             offerDateRange: {
                 from: undefined,
@@ -50,10 +50,10 @@ export class MakeOfferSectionModal extends React.Component {
                 <Modal.Body>
                     <FormGroup controlId='control-form-title'>
                         <h4>Offer Amount</h4>
-                        <FormControl value={offerAmount} onChange={(e) => this.setState({offerAmount: e.target.value})} placeholder='Enter Offer Price' type='number' min='1' step='1' />
+                        <FormControl value={offerAmount} onChange={(e) => this.setState({offerAmount: e.target.value})} placeholder='Enter your offer price' type='number' min='1' step='1' />
                     </FormGroup>
                     <FormGroup controlId='control-form-pitch'>
-                        <h4>Brief Message</h4>
+                        <h4>Brief Message (150 characters max)</h4>
                         <FormControl componentClass='textarea'
                                      maxLength={150}
                                      rows={5}
@@ -72,7 +72,7 @@ export class MakeOfferSectionModal extends React.Component {
                                     modifiers={modifiers}
                                     onDayClick={this.handleDayClick}
                                 />
-                                <p className='selected-range-label'>
+                                <p className='selected-range-label' style={{display: 'none'}}>
                                     {!from && !to && 'Please select the first day'}
                                     {from && !to && 'Please select the last day'}
                                     {from && to && `Selected from ${from.toLocaleDateString()}

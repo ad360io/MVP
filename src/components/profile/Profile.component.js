@@ -95,7 +95,6 @@ class Profile extends Component {
 
     componentDidMount() {
         document.title = "Qchain - Profile";
-        // window.scrollTo(0, 0);
     }
 
     componentDidUpdate(prevProps) {
@@ -136,15 +135,6 @@ class Profile extends Component {
     render() {
         const { allApis, profile } = this.props;
 
-        // let nem_address_field;
-
-        // if (this.props.profile.nem_address === 'undefined' || this.props.profile.nem_address === '') {
-        //     nem_address_field = <em>'asdf'</em>
-        // } else {
-        //     nem_address_field = <em>{this.props.profile.nem_address}</em>
-        // }
-
-
         return (
             <div className='profile-container'>
                 <div className="profile-header-timeline"/>
@@ -169,7 +159,7 @@ class Profile extends Component {
                             }
                         </Media.Body>
 
-                        { profile.role && <ProfileEditor {...{auth: this.props.auth, profile}} />}
+                        { profile.role && <ProfileEditor {...{auth: this.props.auth, profile, allApis}} />}
                     </Media>
                 </div>
             </div>
@@ -178,7 +168,6 @@ class Profile extends Component {
 }
 
 const mediaStyle = {
-    // marginTop: '235px',
     position: 'relative',
     top: '-65px',
     marginLeft: '10vw',

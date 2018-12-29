@@ -1,3 +1,15 @@
+/*.date-range-container {
+    padding: 0 15%;
+}
+
+.Selectable .DayPicker-Months {
+    margin: 0 2.5%;
+}
+
+.Selectable .DayPicker-NavBar {
+    margin-left: -7.5;
+}*/
+
 .Selectable .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
     background-color: #f0f8ff !important;
     color: #4a90e2;

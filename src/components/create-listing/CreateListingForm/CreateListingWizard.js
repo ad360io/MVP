@@ -81,8 +81,12 @@ class CreateListingWizard extends React.Component {
         const { classes, steps, success, loading, onReset, title, modeFilter, currencyFilter} = this.props;
 
         return (
-            <div className={classes.root + ' create-listing-form-container'}>
+            <div className={classes.root + ' create-listing-form-container'} style={{marginTop: '-50px'}}>
+
+                <br /><br />
+
                 <h2 className='create-listing-form-title'>{title}</h2>
+
                 <Stepper activeStep={ success ? steps.length : steps.indexOf(activeStep)} orientation="vertical">
                     {steps.map((step, index) => (
                         <Step key={index}>
@@ -103,7 +107,7 @@ class CreateListingWizard extends React.Component {
                                 <Functionize
                                     refState={(formInfo) => this.setState({formInfo})}
                                     render={({valid}) => (
-                                        <div className={classes.actionsContainer}>
+                                        <div className={classes.actionsContainer} style={{marginLeft: '2%'}}>
                                             {valid && (
                                                 <div>
                                                     { steps.indexOf(activeStep) !== 0 && (
@@ -130,7 +134,6 @@ class CreateListingWizard extends React.Component {
                                             {!valid && steps.indexOf(activeStep) === 0 && (
                                                 <Alert
                                                     bsStyle='danger'
-                                                    style={{marginLeft: '2%'}}
                                                 >
                                                     All information above is required to proceed to next step!
                                                 </Alert>

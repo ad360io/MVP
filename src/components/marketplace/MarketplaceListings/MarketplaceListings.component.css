@@ -3,10 +3,21 @@
     /* Drawer gets closed and docked on small screen */
 }
 
+.marketplace-title-container {
+    background-color: #fefefe;
+    height: 60px;
+    padding-left: 25px; /*1.5vw;*/
+    margin: 19px 0 18px 0;
+    /*border-left: 1px solid rgba(0, 0, 0, 0.12);*/
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
 .marketplace-title {
-    text-align: center;
-    padding-top: 2%;
-    margin-bottom: 2%;
+    line-height: 60px;
+    vertical-align: middle;
+    color: #505050; /*3E3E3E#;*/
+    font-size: 18px;
+    font-weight: 400;
 }
 
 .marketplace-listing-loading {

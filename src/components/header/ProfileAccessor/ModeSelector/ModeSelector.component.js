@@ -23,6 +23,12 @@ class ModeSelector extends React.Component {
         const { patchUserMetadata } = this.props.auth;
         let newMetadata = { mode };
         patchUserMetadata(newMetadata, this.props.history);
+
+        // if (window.location.pathname.split('/')[1] !== 'listing') {
+        //     window.location.reload();
+        // } else {
+        //     window.location.pathname = '/marketplace';
+        // }
     }
 
     render() {

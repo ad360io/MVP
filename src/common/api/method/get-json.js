@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const getJson = (url, {queryParams, authToken, headers}) => {
+export const getJson = (url, {queryParams = null, authToken, headers}) => {
     return axios({
         url: `${url}${queryParams ? `?${buildQuery1(queryParams)}` : ``}`,
         headers: {

@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 /*
 Local CSS
 */
-import './Dashboard.component.css';
+import './Analytics.component.css';
 
 /*
 React Bootstrap Components
@@ -33,14 +33,13 @@ import { fetch_DashboardData_Fulfilled, fetch_DashboardData_Pending, fetch_Dashb
 Custom Components
 */
 import ErrorPage from '../ErrorPage/ErrorPage.component';
-import DashboardNavigation from './DashboardNavigation/DashboardNavigation.component';
-import DashboardDetail from './DashboardDetail/DashboardDetail.component';
+import AnalyticsDetail from './AnalyticsDetail/AnalyticsDetail.component';
 import Footer from '../footer/Footer.component';
 
 /**
- * Dashboard container manages the layout of each children components
+ * Analytics container manages the layout of each children components
  */
-class Dashboard extends Component {
+class Analytics extends Component {
 
     constructor(props) {
         super(props);
@@ -48,7 +47,7 @@ class Dashboard extends Component {
     }
 
     componentDidMount() {
-        document.title = "Qchain - Dashboard";
+        document.title = "Qchain - Analytics";
         window.scrollTo(0, 0)
 
         // Register data loading every 10 minutes.
@@ -79,11 +78,7 @@ class Dashboard extends Component {
 
 const DashboardRenderer = ({ modeFilter, currencyFilter }) => (
     <div className='dashboard-container'>
-        <Alert className='dashboard-alert' bsStyle='info'>Analytics and data tracking are a work in progress.</Alert>
-        <DashboardNavigation modeFilter={modeFilter} />
-        <DashboardDetail />
-
-        {/*<Footer />*/}
+        <AnalyticsDetail />
     </div>
 )
 
@@ -98,7 +93,8 @@ const mapStateToProps = (state) => {
         modeFilter: state.MenuBarFilterReducer.modeFilter,
         currencyFilter: state.MenuBarFilterReducer.currencyFilter,
         fetched: state.DashboardDataReducer.fetched,
-        hasError: state.DashboardDataReducer.hasError
+        hasError: state.DashboardDataReducer.hasError,
+        profile: state.ProfileReducer.profile,
     }
 }
 
@@ -128,4 +124,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Dashboard);
+)(Analytics);

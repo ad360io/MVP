@@ -2,12 +2,29 @@
     margin-left: 25px;
 }
 
+.filter-heading-container {
+    background-color: #fefefe;
+    height: 60px;
+    padding-left: 25px;
+    margin-bottom: 12px;
+    /*border-right: 1px solid rgba(0, 0, 0, 0.12);*/
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.filter-heading {
+    line-height: 60px;
+    vertical-align: middle;
+    color: #505050; /*3E3E3E#;*/
+    font-size: 18px;
+    font-weight: 400;
+}
+
 .filter-title {
-    margin-top: 5%;
+    margin-top: 12px;
     font-weight: 300;
     text-align: left;
-    color: #380038;
     margin-left: 25px;
+    color: #C02F54;
 }
 
 .btn-open-filter-drawer {
